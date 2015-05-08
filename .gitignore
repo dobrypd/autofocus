@@ -1,0 +1,8 @@
+build
+*.[oa]
+*swp
+*tmp
+*~
+bin
+tmp
+*.backup
