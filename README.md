@@ -7,9 +7,9 @@ It's simple implementation of autofocus based of edges detection.
 It was tested only with Nikon DSLR. (Nikon D90).
 But shall work on all Nikon DSLRs, and with little efford with other devices.
 
-For OpenCV extension go to:
-[MyOpenCV](https://github.com/dobrypd/opencv/tree/libgphoto2-connection "OpenCV With gPhoto2 extension")
+For OpenCV extension go to my github fork:
+[OpenCV with extension](https://github.com/dobrypd/opencv/tree/libgphoto2-connection "OpenCV With gPhoto2 extension")
 
 For detailed gPhoto2 information go to:
-[gPhoto2](http://gphoto.sourceforge.net/ "gPhoto project site")
+[gPhoto2 project](http://gphoto.sourceforge.net/ "gPhoto project site")
 
