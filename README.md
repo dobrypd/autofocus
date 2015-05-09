@@ -17,11 +17,5 @@ But it is good enough for this purpose. I've tested this function with 6 differe
 Evaluation function:
 ![FunctionEvaluation](https://raw.githubusercontent.com/dobrypd/autofocus/master/evaluation/NikonD90/NikonD90-50mm1.4G-evaluation.png)
 
-Links to captured scenes:
- * [plant](http://dobrowolski.net.pl/autofocus/NikonD90-50mm1.4G-plant.mp4)
- * [tee](http://dobrowolski.net.pl/autofocus/NikonD90-50mm1.4G-tee.mp4)
- * [texture](http://dobrowolski.net.pl/autofocus/NikonD90-50mm1.4G-texture.mp4)
- * [texture_too_close](http://dobrowolski.net.pl/autofocus/NikonD90-50mm1.4G-texture_too_close.mp4)
- * [wall](http://dobrowolski.net.pl/autofocus/NikonD90-50mm1.4G-wall.mp4)
- * [window](http://dobrowolski.net.pl/autofocus/NikonD90-50mm1.4G-window.mp4)
+Links to captured scenes: [plant](http://dobrowolski.net.pl/autofocus/NikonD90-50mm1.4G-plant.mp4), [tee](http://dobrowolski.net.pl/autofocus/NikonD90-50mm1.4G-tee.mp4), [texture](http://dobrowolski.net.pl/autofocus/NikonD90-50mm1.4G-texture.mp4), [texture_too_close](http://dobrowolski.net.pl/autofocus/NikonD90-50mm1.4G-texture_too_close.mp4), [wall](http://dobrowolski.net.pl/autofocus/NikonD90-50mm1.4G-wall.mp4), [window](http://dobrowolski.net.pl/autofocus/NikonD90-50mm1.4G-window.mp4).
 
