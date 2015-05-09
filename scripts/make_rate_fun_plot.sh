@@ -22,7 +22,6 @@ fi
 
 cat << EOF > ${PLOT_FILENAME}
     set title "Evaluation of exposition shape rating function"
-    set xrange[0:1]
     set xlabel "Samples"
     set ylabel "Rating"
 
