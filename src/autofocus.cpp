@@ -34,7 +34,7 @@ using namespace std;
 using namespace cv;
 
 const char * windowOriginal = "Captured preview";
-const int FOCUS_STEP = 512;
+const int FOCUS_STEP = 1024;
 const int MAX_FOCUS_STEP = 32767;
 const int FOCUS_DIRECTION_INFTY = 1;
 const int DEFAULT_BREAK_LIMIT = 5;
@@ -65,7 +65,8 @@ struct FocusState
 ostream & operator<<(ostream & os, FocusState & state)
 {
     os << "RATE=" << state.rate << "\tSTEP=" << state.step * state.direction
-            << "\tLast change=" << state.lastDirectionChange;
+            << "\tLast change=" << state.lastDirectionChange
+            << "\tstepToLastMax=" << state.stepToLastMax;
 }
 
 void focusDriveEnd(VideoCapture & cap, int direction)
@@ -130,14 +131,21 @@ double rateFrame(Mat frame)
 int correctFocus(bool lastSucceeded, FocusState & state, double rate)
 {
     state.lastDirectionChange++;
+    if (rate > state.rateMax)
+    {
+        state.stepToLastMax = 0;
+        state.rateMax = rate;
+    }
     if (GlobalArgs.verbose)
-        cout << "RATE =" << rate << endl;
+        cout << "RATE=" << rate << endl;
     double rateDelta = rate - state.rate;
     if (!lastSucceeded)
     {
         // Focus at limit or other problem, change the direction.
         state.direction *= -1;
         state.lastDirectionChange = 0;
+        state.stepToLastMax += - state.direction * state.step;
+        state.step /= 2;
     }
     else
     {
@@ -145,27 +153,29 @@ int correctFocus(bool lastSucceeded, FocusState & state, double rate)
         { // It's hard to say anything
             state.step = FOCUS_STEP;
         }
-        else if (rateDelta < epsylon)
+        if ((state.rateMax > rate) && ((state.lastDirectionChange > 2) || (state.step < (state.minFocusStep * 1.25))))
+        { // I've done 3 steps without improvement, go back to max.
+            state.direction = state.stepToLastMax >= 0 ? 1 : -1;
+            int stepToMax = max(abs(state.stepToLastMax), FOCUS_STEP);
+            state.stepToLastMax = 0;
+            state.lastDirectionChange = 0; // Like reset.
+            state.step *= 0.75;
+            return -stepToMax;
+        }
+        else if ((rate > epsylon) && (rateDelta < epsylon))
         { // Wrong direction ?
             state.direction *= -1;
             state.step *= 0.75;
             state.lastDirectionChange = 0;
-        }
-        else
-        { // Good direction.
-            if ((state.rateMax > rate) && (state.lastDirectionChange > 3))
-            { // I've done 3 steps without improvement, go back to max.
-                state.direction = state.stepToLastMax >= 0 ? 1 : -1;
-                int stepToMax = abs(state.stepToLastMax);
-                state.stepToLastMax = 0;
-                state.lastDirectionChange = 0; // Like reset.
-                return stepToMax;
+            if (state.step < state.stepToLastMax)
+            {
+                state.step *= 1.25;
             }
         }
     }
     // Update state.
     state.rate = rate;
-    state.stepToLastMax += state.direction * state.step;
+    state.stepToLastMax -= state.direction * state.step;
     if (rate > state.rateMax)
     {
         state.stepToLastMax = 0;

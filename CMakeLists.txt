@@ -25,7 +25,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 #
 
 #find_package( OpenCV REQUIRED )
-set(OpenCV_DIR "/home/piotrek/Programming/eclipse-workspace/opencv/install")
+set(OpenCV_DIR "/home/piotrek/Programming/eclipse-workspace/opencv/release/install")
 set(OpenCV_INCLUDE_DIRS "${OpenCV_DIR}/include")
 set(OpenCV_LIBS_DIR "${OpenCV_DIR}/lib")
 set(OpenCV_LIBRARIES opencv_core opencv_videoio opencv_highgui opencv_imgproc) 
