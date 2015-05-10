@@ -11,6 +11,8 @@ But shall work on all Nikon DSLRs, and with little effort with other devices.
 [gPhoto2 project](http://gphoto.sourceforge.net/ "gPhoto project site")
 
 
+Evaluating function
+-------------------
 The evaluation function is really easy (fraction of edges in frame).
 But it is good enough for this purpose. I've tested this function with 6 different scenes.
 
@@ -18,4 +20,21 @@ Evaluation function:
 ![FunctionEvaluation](https://raw.githubusercontent.com/dobrypd/autofocus/master/evaluation/NikonD90/NikonD90-50mm1.4G-evaluation.png)
 
 Links to captured scenes: [plant](http://dobrowolski.net.pl/autofocus/NikonD90-50mm1.4G-plant.mp4), [tee](http://dobrowolski.net.pl/autofocus/NikonD90-50mm1.4G-tee.mp4), [texture](http://dobrowolski.net.pl/autofocus/NikonD90-50mm1.4G-texture.mp4), [texture_too_close](http://dobrowolski.net.pl/autofocus/NikonD90-50mm1.4G-texture_too_close.mp4), [wall](http://dobrowolski.net.pl/autofocus/NikonD90-50mm1.4G-wall.mp4), [window](http://dobrowolski.net.pl/autofocus/NikonD90-50mm1.4G-window.mp4).
+
+
+Focusing strategy
+-----------------
+TODO: now, only in comments in source code, go to method
+`int correctFocus(bool, FocusState&, double)`
+in [main](https://github.com/dobrypd/autofocus/blob/master/src/autofocus.cpp).
+
+
+Future
+------
+TODO:
+1. Focusing area (mask).
+1.1. Simple - shapes
+1.2. Objects, (click on the screen to select one?)
+2. Continuous focusing.
+2.2. Follow objects.
 
