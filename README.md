@@ -26,7 +26,7 @@ Focusing strategy
 -----------------
 TODO: now, only in comments in source code, go to method
 `int correctFocus(bool, FocusState&, double)`
-in [main](https://github.com/dobrypd/autofocus/blob/master/src/autofocus.cpp).
+ [here](https://github.com/dobrypd/autofocus/blob/master/src/autofocus.cpp#L131).
 
 
 Future
