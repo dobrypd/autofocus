@@ -33,8 +33,8 @@ Future
 ------
 TODO:
  * Focusing area (mask).
- * * Simple - shapes
- * * Objects, (click on the screen to select one?)
+ ** Simple - shapes
+ ** Objects, (click on the screen to select one?)
  * Continuous focusing.
- * * Follow objects.
+ ** Follow objects.
 
