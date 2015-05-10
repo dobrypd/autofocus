@@ -38,7 +38,7 @@ const int FOCUS_STEP = 1024;
 const int MAX_FOCUS_STEP = 32767;
 const int FOCUS_DIRECTION_INFTY = 1;
 const int DEFAULT_BREAK_LIMIT = 5;
-const double epsylon = 0.001; // compression, noice, etc.
+const double epsylon = 0.0005; // compression, noice, etc.
 
 struct Args_t
 {
@@ -130,21 +130,25 @@ double rateFrame(Mat frame)
 
 int correctFocus(bool lastSucceeded, FocusState & state, double rate)
 {
-    state.lastDirectionChange++;
-    if (rate > state.rateMax)
-    {
-        state.stepToLastMax = 0;
-        state.rateMax = rate;
-    }
     if (GlobalArgs.verbose)
         cout << "RATE=" << rate << endl;
+    state.lastDirectionChange++;
     double rateDelta = rate - state.rate;
+
+    if (rate >= state.rateMax + epsylon)
+    {
+        // Update Max
+        state.stepToLastMax = 0;
+        state.rateMax = rate;
+        // My local minimum is now on the other direction, that's why:
+        state.lastDirectionChange = 0;
+    }
+
     if (!lastSucceeded)
     {
         // Focus at limit or other problem, change the direction.
         state.direction *= -1;
         state.lastDirectionChange = 0;
-        state.stepToLastMax += - state.direction * state.step;
         state.step /= 2;
     }
     else
@@ -153,34 +157,26 @@ int correctFocus(bool lastSucceeded, FocusState & state, double rate)
         { // It's hard to say anything
             state.step = FOCUS_STEP;
         }
-        if ((state.rateMax > rate) && ((state.lastDirectionChange > 2) || (state.step < (state.minFocusStep * 1.25))))
-        { // I've done 3 steps without improvement, go back to max.
-            state.direction = state.stepToLastMax >= 0 ? 1 : -1;
-            int stepToMax = max(abs(state.stepToLastMax), FOCUS_STEP);
-            state.stepToLastMax = 0;
-            state.lastDirectionChange = 0; // Like reset.
-            state.step *= 0.75;
-            return -stepToMax;
-        }
-        else if ((rate > epsylon) && (rateDelta < epsylon))
+        else if (rateDelta < -epsylon)
         { // Wrong direction ?
             state.direction *= -1;
             state.step *= 0.75;
             state.lastDirectionChange = 0;
-            if (state.step < state.stepToLastMax)
-            {
-                state.step *= 1.25;
-            }
+        }
+        else if ((rate + epsylon < state.rateMax) && ((state.lastDirectionChange > 3)
+                || ((state.step < (state.minFocusStep * 1.5)) && state.stepToLastMax > state.step)))
+        { // I've done 3 steps (or I'm finishing) without improvement, go back to max.
+            state.direction = state.stepToLastMax >= 0 ? 1 : -1;
+            state.step *= 0.75;
+            int stepToMax = abs(state.stepToLastMax);
+            state.stepToLastMax = 0;
+            state.lastDirectionChange = 0; // Like reset.
+            return stepToMax;
         }
     }
     // Update state.
     state.rate = rate;
     state.stepToLastMax -= state.direction * state.step;
-    if (rate > state.rateMax)
-    {
-        state.stepToLastMax = 0;
-        state.rateMax = rate;
-    }
     return state.step;
 }
 
@@ -331,7 +327,7 @@ int main(int argc, char ** argv)
                     focus = false;
                     state.step = state.minFocusStep * 4;
                     cout
-                            << "Focused, you can press 'f' to improve with small step, "
+                            << "In focus, you can press 'f' to improve with small step, "
                                     "or 'r' to reset." << endl;
                 }
             }
@@ -356,7 +352,7 @@ int main(int argc, char ** argv)
 
         if ((focus || GlobalArgs.measure) && GlobalArgs.verbose)
         {
-            cout << "STATE=\t" << state << endl;
+            cout << "STATE\t" << state << endl;
             cout << "Output from camera: " << endl
                     << (const char *) (intptr_t) cap.get(
                             CAP_PROP_GPHOTO2_FLUSH_MSGS) << endl;
