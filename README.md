@@ -32,9 +32,9 @@ TODO: now, only in comments in source code, go to method
 Future
 ------
 TODO:
-1. Focusing area (mask).
-1.1. Simple - shapes
-1.2. Objects, (click on the screen to select one?)
-2. Continuous focusing.
-2.2. Follow objects.
+ * Focusing area (mask).
+ * * Simple - shapes
+ * * Objects, (click on the screen to select one?)
+ * Continuous focusing.
+ * * Follow objects.
 
