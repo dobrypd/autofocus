@@ -163,8 +163,10 @@ int correctFocus(bool lastSucceeded, FocusState & state, double rate)
             state.step *= 0.75;
             state.lastDirectionChange = 0;
         }
-        else if ((rate + epsylon < state.rateMax) && ((state.lastDirectionChange > 3)
-                || ((state.step < (state.minFocusStep * 1.5)) && state.stepToLastMax > state.step)))
+        else if ((rate + epsylon < state.rateMax)
+                && ((state.lastDirectionChange > 3)
+                        || ((state.step < (state.minFocusStep * 1.5))
+                                && state.stepToLastMax > state.step)))
         { // I've done 3 steps (or I'm finishing) without improvement, go back to max.
             state.direction = state.stepToLastMax >= 0 ? 1 : -1;
             state.step *= 0.75;
