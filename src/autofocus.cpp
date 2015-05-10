@@ -173,6 +173,7 @@ int correctFocus(bool lastSucceeded, FocusState & state, double rate)
             int stepToMax = abs(state.stepToLastMax);
             state.stepToLastMax = 0;
             state.lastDirectionChange = 0; // Like reset.
+            state.rate = rate;
             return stepToMax;
         }
     }
